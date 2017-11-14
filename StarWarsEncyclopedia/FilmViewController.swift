@@ -24,14 +24,7 @@ class FilmViewController: UITableViewController {
     
     func parseData() {
         
-        let url = URL(string: "https://swapi.co/api/films/")
-        
-        
-        // create a URLSession to handle the request tasks
-        let session = URLSession.shared
-        
-        // create a "data task" to make the request and run completion handler
-        let task = session.dataTask(with: url!, completionHandler: {
+        StarWarsModel.getAllFilms(completionHandler: {
             data, response, error in
             
             do {
@@ -51,15 +44,19 @@ class FilmViewController: UITableViewController {
                         self.filmTableView.reloadData()
                         
                     }
+                    
+                    
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
+                    
                 }
             } catch {
                 print(error)
             }
             
         })
-        // execute the task and then wait for the response
-        // to run the completion handler. This is async!
-        task.resume()
+
     }
     
     class Title {

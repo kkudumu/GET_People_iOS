@@ -22,15 +22,9 @@ class PeopleViewController: UITableViewController {
     }
     
     func parseData() {
-        
-        let url = URL(string: "http://swapi.co/api/people/")
-        
     
-    // create a URLSession to handle the request tasks
-    let session = URLSession.shared
-    
-    // create a "data task" to make the request and run completion handler
-    let task = session.dataTask(with: url!, completionHandler: {
+ 
+    StarWarsModel.getAllPeople(completionHandler: {
         data, response, error in
         
         do {
@@ -48,7 +42,13 @@ class PeopleViewController: UITableViewController {
                     self.peopleTableView.reloadData()
 
                 }
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+                
             }
+            
         } catch {
             print(error)
         }
@@ -56,7 +56,6 @@ class PeopleViewController: UITableViewController {
     })
     // execute the task and then wait for the response
     // to run the completion handler. This is async!
-    task.resume()
 }
     
     class Name {
